@@ -26,6 +26,8 @@ void transpose_submit(int M, int N, int A[N][M], int B[M][N]) {
     int v0, v1;
 
     if (N == 32) {
+        // diagonal 원소를 접근하는 순간 conflict miss가 발생하므로
+        // 이 원소는 마지막에 접근하여 대입한다.
         for (colBlock = 0; colBlock < M; colBlock += 8) {
             for (rowBlock = 0; rowBlock < N; rowBlock += 8) {
                 for (row = rowBlock; row < rowBlock + 8; row++) {
